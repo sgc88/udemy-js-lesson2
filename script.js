@@ -167,3 +167,53 @@ console.log(teacherquestion("john"));
 console.log(ages);
 console.log(ages1);
 console.log(rates);
+
+
+// IIFE
+
+(function (){
+  var score = Math.random() * 10;
+  console.log(score >= 5 );
+})();
+
+(function (goodLuck){
+  var score = Math.random() * 10;
+  console.log(score >= 5 -  goodLuck);
+})(5);
+
+// lecture: Closures
+
+function retirment(retirementAge){
+  var a = " year left until retirement."
+
+  return function(yearOfBirth){
+    var age = 2018 - yearOfBirth;
+    console.log((retirementAge - age) + a)
+  }
+}
+
+retirment(64)(1980);
+
+
+// Bind, call and apply
+var july = {
+  name: "July",
+  age: 26,
+  job: "teacher",
+  presentation: function(style, timeOfDay){
+    if(style === "formal"){
+      console.log("Good" + timeOfDay + ", ladies and gentelments. I\'m " + this.name + ", I\'m a " + this.job + "and I\'m " + this.age + "years old.");
+    }else if(style === "informal"){
+      console.log("Good " + timeOfDay + " I\'m " + this.name + " and I'm a " + this.job + ".");
+    }
+  }
+}
+
+var emily = {
+  name: "Emily",
+  age: 34,
+  job: "developer"
+}
+
+july.presentation("formal", "morning");
+july.presentation.call(emily, "informal", "afternoon");
