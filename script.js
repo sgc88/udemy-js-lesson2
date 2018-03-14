@@ -64,7 +64,7 @@ var jane = Object.create(personProto, {
   yearOfBirth: {value: 1990},
   job: {value: "developer"}
 });
-*/
+
 
 //Primitives vs Objects
 
@@ -133,7 +133,9 @@ function maxHeartRate(el){
 
 }
 
+
 // function returning functions
+
 
 function interviewQuestions(job){
   if(job === "designer"){
@@ -193,7 +195,7 @@ function retirment(retirementAge){
 }
 
 retirment(64)(1980);
-
+*/
 
 // Bind, call and apply
 var july = {
@@ -214,6 +216,106 @@ var emily = {
   age: 34,
   job: "developer"
 }
+var fonda = {
+  name: "Fonda",
+  age: 34,
+  job: "developer"
+}
+var april = {
+  name: "April",
+  age: 34,
+  job: "developer"
+}
 
 july.presentation("formal", "morning");
 july.presentation.call(emily, "informal", "afternoon");
+
+// other method to use pre-set code
+
+var julyFriendly = july.presentation.bind(fonda, "informal");
+var julyFriendly1 = july.presentation.bind(april, "informal");
+var julyFriendly2 = july.presentation.bind(emily, "informal");
+
+julyFriendly("morning");
+julyFriendly1("night");
+julyFriendly2("night");
+
+
+
+
+var years = [1990, 1980, 1965, 1969, 2002];
+
+function arrayCalc(arr, fn){
+  var years2 = [];
+  for(var i = 0; i < arr.length; i++){
+    years2.push(fn(arr[i]));
+  }
+  return years2;
+}
+
+
+function calculateAge(el){
+  return 2018 - el;
+}
+
+function isFullAge(limit, el){
+  return el >= limit;
+}
+
+var ages = arrayCalc(years, calculateAge);
+var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
+console.log(ages);
+console.log(fullJapan);
+
+
+//bind call apply
+
+function Question(question, answer, correctAnswer){
+    this.question = question;
+    this.answer = answer;
+    this.correctAnswer = correctAnswer;
+}
+
+Question.prototype.displayQuestion=
+    function(){
+    console.log(this.question);
+    for (var i = 0; i < this.answer.length; i++){
+        console.log(i + ":" + this.answer[i]);
+
+    }
+}
+
+Question.prototype.checkAnswer =
+    function (ans){
+    if (ans === this.correctAnswer){
+        console.log("Correct answer!");
+    }else{
+        console.log("Wrong answer try again.");
+    }
+}
+
+var question1 = new Question("is JS best programming language?",
+                            ["yes", "No"],0 );
+var question2 = new Question ("who is teaching this course?", ["john", "Michael", "April"], 0);
+
+var question3 = new Question("what do you do for fun?", ["hiking", "play with dogs", "study"], 2);
+
+var questions =[question1, question2, question3];
+
+function nextQuestion(){
+
+var n = Math.floor(Math.random() * questions.length);
+questions[n].displayQuestion();
+
+
+var answer = prompt("Please select the correct answer. To exit please type in exit");
+
+
+    if(answer !== "exit"){
+        questions[n].checkAnswer(parseInt(answer));
+        nextQuestion();
+    }
+
+};
+
+nextQuestion();
