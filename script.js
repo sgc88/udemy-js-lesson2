@@ -269,7 +269,6 @@ console.log(fullJapan);
 
 
 //bind call apply
-
 function Question(question, answer, correctAnswer){
     this.question = question;
     this.answer = answer;
@@ -286,12 +285,22 @@ Question.prototype.displayQuestion=
 }
 
 Question.prototype.checkAnswer =
-    function (ans){
+    function (ans, callback){
+    var sc ;
+
     if (ans === this.correctAnswer){
         console.log("Correct answer!");
+        sc = callback(true);
     }else{
         console.log("Wrong answer try again.");
+        sc = callback(false);
     }
+    this.displayScore(sc);
+};
+
+Question.prototype.displayScore = function(score){
+    console.log("Your current score is " + score);
+    console.log('-------------------------');
 }
 
 var question1 = new Question("is JS best programming language?",
@@ -302,9 +311,23 @@ var question3 = new Question("what do you do for fun?", ["hiking", "play with do
 
 var questions =[question1, question2, question3];
 
+function score(){
+    var sc = 0;
+    return function(correct){
+        if(correct){
+            sc++;
+        }
+         return sc;
+    }
+
+}
+var keepScore = score();
+
+
 function nextQuestion(){
 
 var n = Math.floor(Math.random() * questions.length);
+
 questions[n].displayQuestion();
 
 
@@ -312,10 +335,11 @@ var answer = prompt("Please select the correct answer. To exit please type in ex
 
 
     if(answer !== "exit"){
-        questions[n].checkAnswer(parseInt(answer));
-        nextQuestion();
+        questions[n].checkAnswer(parseInt(answer), keepScore);
+          nextQuestion();
     }
 
 };
 
-nextQuestion();
+
+ nextQuestion();
